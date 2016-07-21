@@ -1,0 +1,16 @@
+#!/bin/sh
+
+case "$1" in
+    -h | --help)
+        echo 'Usage: osd-text [TEXT...]
+Display TEXT in OSD.
+Without arguments, show previously displayed text.'
+        exit 0 ;;
+    *)
+        if [[ -z "$@" ]]; then
+            gdpipe "(show-message-osd)"
+        else
+            gdpipe "(show-message-osd \"$@\")"
+        fi
+        ;;
+esac

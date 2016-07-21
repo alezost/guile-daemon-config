@@ -1,0 +1,3 @@
+#!/bin/sh
+
+gdpipe '(toggle-clock-osd)'

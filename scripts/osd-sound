@@ -1,0 +1,20 @@
+#!/bin/sh
+
+case "$1" in
+    -h | --help)
+        echo 'Usage: osd-sound [AMIXER-ARGS...]
+Run "amixer AMIXER-ARGS..." and display sound value in OSD.
+Without arguments, show previously displayed sound value.'
+        exit 0 ;;
+    *)
+        if [[ -z "$@" ]]; then
+            gdpipe "(show-sound-osd)"
+        else
+            quoted_args=
+            for arg; do
+                quoted_args="$quoted_args \"$arg\""
+            done
+            gdpipe "(show-sound-osd $quoted_args)"
+        fi
+        ;;
+esac

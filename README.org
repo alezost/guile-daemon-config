@@ -1,0 +1,17 @@
+* About
+
+This is my configuration for [[https://github.com/alezost/guile-daemon][Guile-Daemon]].  Currently I use it as the
+OSD daemon, i.e. I use it to display something (clock, sound volume or
+just some text) on screen using [[https://github.com/alezost/guile-xosd][Guile-XOSD]].
+
+* Files
+
+- =init.scm= is the config file itself.  Along with =(xosd)= module from
+  Guile-XOSD, it uses some of my [[https://github.com/alezost/guile-config][guile modules]].
+
+- =scripts= directory contains a couple of shell scripts that send
+  expressions to the Guile Daemon using =gdpipe= (it is a part of
+  Guile-Daemon).  This directory is placed in my $PATH so I can use such
+  commands as =osd-text hello= or =osd-sound sset Master 3%+=.  For
+  example, I bind several keys to such =osd-sound= commands in my
+  [[https://github.com/alezost/stumpwm-config][stumpwm config]].
