@@ -4,6 +4,8 @@ This is my configuration for [[https://github.com/alezost/guile-daemon][Guile-Da
 OSD daemon, i.e. I use it to display something (clock, sound volume or
 just some text) on screen using [[https://github.com/alezost/guile-xosd][Guile-XOSD]].
 
+[[file:sound-volume-demo.gif]]
+
 * Files
 
 - =init.scm= is the config file itself.  Along with =(xosd)= module from
@@ -14,4 +16,4 @@ just some text) on screen using [[https://github.com/alezost/guile-xosd][Guile-X
   Guile-Daemon).  This directory is placed in my $PATH so I can use such
   commands as =osd-text hello= or =osd-sound sset Master 3%+=.  For
   example, I bind several keys to such =osd-sound= commands in my
-  [[https://github.com/alezost/stumpwm-config][stumpwm config]].
+  [[https://github.com/alezost/stumpwm-config][stumpwm config]].  The result may be seen in the gif demo above.
