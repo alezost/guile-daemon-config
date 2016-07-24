@@ -6,12 +6,28 @@ just some text) on screen using [[https://github.com/alezost/guile-xosd][Guile-X
 
 [[file:sound-volume-demo.gif]]
 
+Note: along with =(xosd)= module from Guile-XOSD, [[https://github.com/alezost/guile-config][my guile modules]] are
+used in this config (they have =(al ...)= form).
+
 * Files
 
-- =init.scm= is the config file itself.  Along with =(xosd)= module from
-  Guile-XOSD, it uses some of my [[https://github.com/alezost/guile-config][guile modules]].
+- [[file:init.scm]] is the "config" file itself (it is symlinked to
+  [[file:$XDG_CONFIG_HOME/guile-daemon/init.scm]]).  All this file does is:
+  it adds [[file:modules]] directory (see below) to the Guile =%load-path=,
+  and loads =(daemon-config)= module.
 
-- =scripts= directory contains a couple of shell scripts that send
+- [[file:modules]] directory contains several modules with the code I use
+  for Guile-Daemon.  I split the code into several modules to make
+  "logical pieces", but more importantly to speed-up the start of
+  Guile-Daemon, as these modules are loaded *on demand*: only
+  =(daemon-config)= is loaded on start-up, and it's just a wrapper that
+  autoloads procedures placed in the other modules.
+
+  So, for example, =(daemon-config sound)= module is loaded only when
+  =show-sound-osd= procedure is called, i.e., when I press one of my
+  sound keys (bound to =osd-sound ...= — see below) first time.
+
+- [[file:scripts]] directory contains a couple of shell scripts that send
   expressions to the Guile Daemon using =gdpipe= (it is a part of
   Guile-Daemon).  This directory is placed in my $PATH so I can use such
   commands as =osd-text hello= or =osd-sound sset Master 3%+=.  For
