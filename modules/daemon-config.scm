@@ -16,8 +16,8 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (daemon-config)
-  #:autoload (daemon-config clock)   (toggle-clock-osd)
-  #:autoload (daemon-config message) (show-message-osd)
-  #:autoload (daemon-config sound)   (osd-sound))
+  #:autoload (daemon-config clock) (toggle-clock-osd)
+  #:autoload (daemon-config text)  (osd-text)
+  #:autoload (daemon-config sound) (osd-sound))
 
 ;; daemon-config.scm ends here

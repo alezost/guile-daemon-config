@@ -8,9 +8,9 @@ Without arguments, show previously displayed text.'
         exit 0 ;;
     *)
         if [[ -z "$@" ]]; then
-            gdpipe "(show-message-osd)"
+            gdpipe "(osd-text)"
         else
-            gdpipe "(show-message-osd \"$@\")"
+            gdpipe "(osd-text \"$@\")"
         fi
         ;;
 esac
