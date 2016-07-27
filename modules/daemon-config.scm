@@ -18,6 +18,6 @@
 (define-module (daemon-config)
   #:autoload (daemon-config clock)   (toggle-clock-osd)
   #:autoload (daemon-config message) (show-message-osd)
-  #:autoload (daemon-config sound)   (show-sound-osd))
+  #:autoload (daemon-config sound)   (osd-sound))
 
 ;; daemon-config.scm ends here

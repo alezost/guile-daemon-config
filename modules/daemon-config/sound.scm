@@ -21,7 +21,7 @@
   #:use-module (al sound)
   #:use-module (al utils)
   #:use-module (daemon-config global)
-  #:export (show-sound-osd))
+  #:export (osd-sound))
 
 (define-delayed sound-osd
   (make-osd #:lines 2
@@ -31,7 +31,7 @@
             #:font "-*-dejavu sans-bold-r-normal-*-*-320-*-*-p-*-*"
             #:shadow-offset 2))
 
-(define show-sound-osd
+(define osd-sound
   (case-lambda
     "Show sound OSD.
 If called with arguments (should be strings), run 'amixer' with these

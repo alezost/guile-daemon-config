@@ -8,13 +8,13 @@ Without arguments, show previously displayed sound value.'
         exit 0 ;;
     *)
         if [[ -z "$@" ]]; then
-            gdpipe "(show-sound-osd)"
+            gdpipe "(osd-sound)"
         else
             quoted_args=
             for arg; do
                 quoted_args="$quoted_args \"$arg\""
             done
-            gdpipe "(show-sound-osd $quoted_args)"
+            gdpipe "(osd-sound $quoted_args)"
         fi
         ;;
 esac
