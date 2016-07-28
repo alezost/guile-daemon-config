@@ -1,0 +1,21 @@
+#!/bin/sh
+
+case "$1" in
+    -h | --help)
+        echo 'Usage: osd-sleep [TIME]
+Set sleep TIME and display it in OSD.
+Without arguments, show the current sleep time.
+
+TIME can have one of the following forms:
+  "18": set time to 18 minutes;
+  "+3": add 3 minutes to the current sleep time;
+  "-5": subtract 5 minutes from the current sleep time.'
+        exit 0 ;;
+    *)
+        if [[ -z "$1" ]]; then
+            gdpipe "(osd-sleep)"
+        else
+            gdpipe "(osd-sleep \"$1\")"
+        fi
+        ;;
+esac

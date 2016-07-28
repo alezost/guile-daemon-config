@@ -1,0 +1,14 @@
+#!/bin/sh
+
+case "$1" in
+    -h | --help)
+        echo 'Usage: osd-sleep-command [CMD ARGS...]
+Set sleep command to CMD and its arguments ARGS, and display it in OSD.
+Without arguments, show the current sleep command.'
+        exit 0 ;;
+    *)
+        cmd="(osd-text (sleep-command))"
+        [[ -n "$@" ]] && cmd="(sleep-command \"$@\") $cmd"
+        gdpipe "$cmd"
+        ;;
+esac
