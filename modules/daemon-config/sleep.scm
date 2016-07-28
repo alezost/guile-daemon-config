@@ -30,12 +30,12 @@
 
 (define-module (daemon-config sleep)
   #:use-module (xosd)
-  #:use-module (al utils)
+  #:use-module (daemon-config osd)
   #:use-module (daemon-config global)
   #:export (osd-sleep
             sleep-command))
 
-(define-delayed sleep-osd
+(define-osd sleep-osd
   (make-osd #:position 'top
             #:align 'left
             #:timeout 3

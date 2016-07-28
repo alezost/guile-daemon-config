@@ -19,11 +19,11 @@
   #:use-module (ice-9 format)
   #:use-module (xosd)
   #:use-module (al sound)
-  #:use-module (al utils)
+  #:use-module (daemon-config osd)
   #:use-module (daemon-config global)
   #:export (osd-sound))
 
-(define-delayed sound-osd
+(define-osd sound-osd
   (make-osd #:lines 2
             #:timeout 3
             #:align 'center

@@ -17,10 +17,10 @@
 
 (define-module (daemon-config text)
   #:use-module (xosd)
-  #:use-module (al utils)
+  #:use-module (daemon-config osd)
   #:export (osd-text))
 
-(define-delayed text-osd
+(define-osd text-osd
   (make-osd #:timeout 5
             #:align 'right
             #:position 'top

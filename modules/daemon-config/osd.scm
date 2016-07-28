@@ -1,4 +1,4 @@
-;;; daemon-config.scm --- Autoload procedures for my Guile-Daemon config
+;;; osd.scm --- Auxiliary code for working with OSDs
 
 ;; Copyright © 2016 Alex Kost <alezost@gmail.com>
 
@@ -15,12 +15,25 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (daemon-config)
-  #:autoload (daemon-config osd)   (hide-osds)
-  #:autoload (daemon-config clock) (toggle-clock-osd)
-  #:autoload (daemon-config text)  (osd-text)
-  #:autoload (daemon-config sleep) (osd-sleep
-                                    sleep-command)
-  #:autoload (daemon-config sound) (osd-sound))
+(define-module (daemon-config osd)
+  #:use-module (xosd)
+  #:use-module (al utils)
+  #:export (hide-osds
+            define-osd))
 
-;; daemon-config.scm ends here
+(define %osds '())
+
+(define-syntax-rule (define-osd name expression)
+  "Define NAME thunk that will return OSD object that EXPRESSION evaluates to.
+This object will be returned on subsequent calls of NAME.  This object
+is also remembered for such procedures as 'hide-osds'."
+  (define-delayed name
+    (let ((osd expression))
+      (push! osd %osds)
+      osd)))
+
+(define (hide-osds)
+  "Hide all OSDs made with 'define-osd'."
+  (for-each hide-osd %osds))
+
+;; osd.scm ends here

@@ -17,10 +17,10 @@
 
 (define-module (daemon-config clock)
   #:use-module (xosd)
-  #:use-module (al utils)
+  #:use-module (daemon-config osd)
   #:export (toggle-clock-osd))
 
-(define-delayed clock-osd
+(define-osd clock-osd
   (make-osd #:position 'middle
             #:align 'center
             #:font "-*-ubuntu-bold-r-normal-*-*-3800-*-*-p-*-*"
