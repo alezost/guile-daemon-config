@@ -28,10 +28,10 @@
 
 ;;; Code:
 
-(define-module (daemon-config sleep)
+(define-module (daemon-config osd sleep)
   #:use-module (xosd)
   #:use-module (daemon-config osd)
-  #:use-module (daemon-config global)
+  #:use-module (daemon-config osd global)
   #:export (osd-sleep
             sleep-command))
 

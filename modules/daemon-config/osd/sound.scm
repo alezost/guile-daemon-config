@@ -15,12 +15,12 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (daemon-config sound)
+(define-module (daemon-config osd sound)
   #:use-module (ice-9 format)
   #:use-module (xosd)
   #:use-module (al sound)
   #:use-module (daemon-config osd)
-  #:use-module (daemon-config global)
+  #:use-module (daemon-config osd global)
   #:export (osd-sound))
 
 (define-osd sound-osd

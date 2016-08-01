@@ -23,9 +23,9 @@ used in this config (they have =(al ...)= form).
   =(daemon-config)= is loaded on start-up, and it's just a wrapper that
   autoloads procedures placed in the other modules.
 
-  So, for example, =(daemon-config sound)= module is loaded only when
-  =osd-sound= procedure is called, i.e., when I press one of my sound
-  keys (bound to =osd-sound ...= — see below) first time.
+  So, for example, =(daemon-config osd sound)= module is loaded only
+  when =osd-sound= procedure is called, i.e., when I press one of my
+  sound keys (bound to =osd-sound ...= — see below) first time.
 
 - [[file:scripts]] directory contains a couple of shell scripts that send
   expressions to the Guile Daemon using =gdpipe= (it is a part of

@@ -1,4 +1,4 @@
-;;; global.scm --- General things for the other daemon-config modules
+;;; global.scm --- General things for the other OSD modules
 
 ;; Copyright © 2016 Alex Kost <alezost@gmail.com>
 
@@ -15,7 +15,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (daemon-config global))
+(define-module (daemon-config osd global))
 
 (define-public %color-on "#23B13E")
 (define-public %color-off "#E74F35")

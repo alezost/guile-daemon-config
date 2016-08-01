@@ -15,7 +15,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (daemon-config clock)
+(define-module (daemon-config osd clock)
   #:use-module (xosd)
   #:use-module (daemon-config osd)
   #:export (toggle-clock-osd))

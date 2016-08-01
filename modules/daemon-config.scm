@@ -16,11 +16,10 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (daemon-config)
-  #:autoload (daemon-config osd)   (hide-osds)
-  #:autoload (daemon-config clock) (toggle-clock-osd)
-  #:autoload (daemon-config text)  (osd-text)
-  #:autoload (daemon-config sleep) (osd-sleep
-                                    sleep-command)
-  #:autoload (daemon-config sound) (osd-sound))
+  #:autoload (daemon-config osd)       (hide-osds)
+  #:autoload (daemon-config osd clock) (toggle-clock-osd)
+  #:autoload (daemon-config osd text)  (osd-text)
+  #:autoload (daemon-config osd sleep) (osd-sleep sleep-command)
+  #:autoload (daemon-config osd sound) (osd-sound))
 
 ;;; daemon-config.scm ends here
