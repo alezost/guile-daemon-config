@@ -46,4 +46,4 @@
             (set-thread-cleanup! thread
                                  (lambda () (hide-osd osd))))))))
 
-;; clock.scm ends here
+;;; clock.scm ends here

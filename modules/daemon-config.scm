@@ -23,4 +23,4 @@
                                     sleep-command)
   #:autoload (daemon-config sound) (osd-sound))
 
-;; daemon-config.scm ends here
+;;; daemon-config.scm ends here

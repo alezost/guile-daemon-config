@@ -1,4 +1,4 @@
-;;; clock.scm --- Set up "sleep" with OSD
+;;; sleep.scm --- Set up "sleep" with OSD
 
 ;; Copyright © 2016 Alex Kost <alezost@gmail.com>
 
@@ -107,4 +107,4 @@ See 'calculate-time' for details."
           (set! time new-time)
           (osd-sleep)))))))
 
-;; sleep.scm ends here
+;;; sleep.scm ends here

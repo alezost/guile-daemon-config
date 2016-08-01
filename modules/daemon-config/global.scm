@@ -21,4 +21,4 @@
 (define-public %color-off "#E74F35")
 (define-public %color-error "orange")
 
-;; global.scm ends here
+;;; global.scm ends here

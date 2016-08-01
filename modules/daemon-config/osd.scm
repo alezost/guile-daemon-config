@@ -36,4 +36,4 @@ is also remembered for such procedures as 'hide-osds'."
   "Hide all OSDs made with 'define-osd'."
   (for-each hide-osd %osds))
 
-;; osd.scm ends here
+;;; osd.scm ends here

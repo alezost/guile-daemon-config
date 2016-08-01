@@ -36,4 +36,4 @@ If STRING is not specified, show OSD with the previously displayed text."
       (display-string-in-osd (text-osd) string)
       (show-osd (text-osd))))
 
-;; text.scm ends here
+;;; text.scm ends here

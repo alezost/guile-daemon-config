@@ -56,4 +56,4 @@ arguments and update the OSD accordingly."
              (display-string-in-osd
               osd "Oops, can't parse amixer output :-)" 1)))))))
 
-;; sound.scm ends here
+;;; sound.scm ends here
