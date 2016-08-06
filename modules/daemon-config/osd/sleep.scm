@@ -33,6 +33,7 @@
   #:use-module (daemon-config osd)
   #:use-module (daemon-config osd global)
   #:export (osd-sleep
+            sleep-osd
             sleep-command))
 
 (define-osd sleep-osd
