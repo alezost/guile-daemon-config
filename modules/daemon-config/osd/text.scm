@@ -17,23 +17,51 @@
 
 (define-module (daemon-config osd text)
   #:use-module (xosd)
+  #:use-module (al utils)
   #:use-module (daemon-config osd)
   #:export (osd-text))
 
-(define-osd text-osd
-  (make-osd #:timeout 5
-            #:align 'right
-            #:position 'top
-            #:font "-*-dejavu sans-bold-r-normal-*-*-300-*-*-p-*-*"
-            #:color "yellow"
-            #:outline-offset 1
-            #:vertical-offset 20))
+(define-values (text-osd
+                hide-text-osds)
+  (let ((osds '()))
+    (values
+     (memoize
+      (lambda (number-of-lines)
+        (let ((osd (make-osd
+                    #:lines number-of-lines
+                    #:timeout 5
+                    #:align 'right
+                    #:position 'top
+                    #:font "-*-dejavu sans-bold-r-normal-*-*-300-*-*-p-*-*"
+                    #:color "yellow"
+                    #:outline-offset 1
+                    #:vertical-offset 20)))
+          (register-osd osd)
+          (push! osd osds)
+          osd)))
+     (lambda line-numbers
+       "Hide all text OSDs that do not have one of the LINE-NUMBERS."
+       (for-each (lambda (osd)
+                   (unless (memv (osd-number-of-lines osd)
+                                 line-numbers)
+                       (hide-osd osd)))
+                 osds)))))
 
-(define* (osd-text #:optional string)
-  "Show STRING in OSD.
-If STRING is not specified, show OSD with the previously displayed text."
-  (if string
-      (display-string-in-osd (text-osd) string)
-      (show-osd (text-osd))))
+(define osd-text
+  (case-lambda
+    "Show STRINGS in OSD.
+If STRINGS are not specified, show OSD with the previously displayed string."
+    (()
+     (show-osd (text-osd 1)))
+    (strings
+     (let* ((lines (length strings))
+            (osd   (text-osd lines)))
+       (hide-text-osds lines)
+       (let loop ((strings strings)
+                  (line 0))
+         (unless (null? strings)
+           (display-string-in-osd osd (car strings) line)
+           (loop (cdr strings)
+                 (1+ line))))))))
 
 ;;; text.scm ends here
