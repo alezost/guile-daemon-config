@@ -1,8 +1,12 @@
 * About
 
-This is my configuration for [[https://github.com/alezost/guile-daemon][Guile-Daemon]].  Currently I use it as the
-OSD daemon, i.e. I use it to display something (clock, sound volume or
-just some text) on screen using [[https://github.com/alezost/guile-xosd][Guile-XOSD]].
+This is my configuration for [[https://github.com/alezost/guile-daemon][Guile-Daemon]].  I use it for 2 purposes:
+
+- As the OSD daemon, i.e. to display something (clock, sound volume,
+  etc.) on screen using [[https://github.com/alezost/guile-xosd][Guile-XOSD]].
+
+- As a client for =lircd= (instead of [[http://www.lirc.org/html/irexec.html][irexec]]), i.e. to handle key
+  signals from my remote control.
 
 [[file:sound-volume-demo.gif]]
 

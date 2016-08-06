@@ -16,10 +16,16 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (daemon-config)
+  #:use-module (al processes)
+  #:autoload (daemon-config lirc client) (lirc-client-reconnect)
   #:autoload (daemon-config osd)       (hide-osds)
   #:autoload (daemon-config osd clock) (toggle-clock-osd)
   #:autoload (daemon-config osd text)  (osd-text)
   #:autoload (daemon-config osd sleep) (osd-sleep sleep-command)
   #:autoload (daemon-config osd sound) (osd-sound))
+
+(when (process-exists? "lircd" #:exact? #t)
+  ((module-ref (resolve-interface '(daemon-config lirc client))
+               'lirc-client-connect)))
 
 ;;; daemon-config.scm ends here
