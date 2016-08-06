@@ -38,7 +38,7 @@
 (define-osd sleep-osd
   (make-osd #:position 'top
             #:align 'left
-            #:timeout 3
+            #:timeout 5
             #:font "-*-liberation sans-bold-r-normal-*-*-600-*-*-p-*-*"
             #:shadow-offset 2))
 
