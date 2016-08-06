@@ -19,21 +19,26 @@
   #:use-module (xosd)
   #:use-module (al utils)
   #:export (hide-osds
+            register-osd
             define-osd))
 
 (define %osds '())
 
+(define (register-osd osd)
+  "Register OSD for such procedures as 'hide-osds'."
+  (push! osd %osds))
+
 (define-syntax-rule (define-osd name expression)
   "Define NAME thunk that will return OSD object that EXPRESSION evaluates to.
 This object will be returned on subsequent calls of NAME.  This object
-is also remembered for such procedures as 'hide-osds'."
+is also registered with 'register-osd'."
   (define-delayed name
     (let ((osd expression))
-      (push! osd %osds)
+      (register-osd osd)
       osd)))
 
 (define (hide-osds)
-  "Hide all OSDs made with 'define-osd'."
+  "Hide all registered OSDs."
   (for-each hide-osd %osds))
 
 ;;; osd.scm ends here
