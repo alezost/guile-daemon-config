@@ -16,6 +16,7 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (daemon-config osd text)
+  #:use-module (ice-9 match)
   #:use-module (xosd)
   #:use-module (al utils)
   #:use-module (daemon-config osd)
@@ -47,21 +48,27 @@
                        (hide-osd osd)))
                  osds)))))
 
-(define osd-text
-  (case-lambda
-    "Show STRINGS in OSD.
-If STRINGS are not specified, show OSD with the previously displayed string."
+(define (display-strings-in-osd strings)
+  (let* ((lines (length strings))
+         (osd   (text-osd lines)))
+    (hide-text-osds lines)
+    (let loop ((strings strings)
+               (line 0))
+      (unless (null? strings)
+        (display-string-in-osd osd (car strings) line)
+        (loop (cdr strings)
+              (1+ line))))))
+
+(define (osd-text . strings)
+  "Show STRINGS in OSD on separate lines.
+If STRINGS are not specified, show OSD with the previously displayed string.
+If a single string is specified, it may contain newlines."
+  (match strings
     (()
      (show-osd (text-osd 1)))
+    ((string)
+     (display-strings-in-osd (string-split string #\newline)))
     (strings
-     (let* ((lines (length strings))
-            (osd   (text-osd lines)))
-       (hide-text-osds lines)
-       (let loop ((strings strings)
-                  (line 0))
-         (unless (null? strings)
-           (display-string-in-osd osd (car strings) line)
-           (loop (cdr strings)
-                 (1+ line))))))))
+     (display-strings-in-osd strings))))
 
 ;;; text.scm ends here
