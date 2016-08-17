@@ -22,16 +22,10 @@
 ;;; Code:
 
 (use-modules
- (daemon defaults)              ; for %default-config-file
  (al utils))                    ; for push!
 
-;; FIXME Is it possible to get the full name of this file (init.scm)
-;; while it is loaded (analog of `load-file-name' in Emacs)?  This would
-;; allow to define "modules" directory even if guile-daemon is started
-;; with non-standard config file.
-(let* ((init.scm (canonicalize-path %default-config-file))
-       (modules  (string-append (dirname init.scm)
-                                "/modules")))
+(let ((modules (string-append (dirname (current-filename))
+                              "/modules")))
   (push! modules %load-path))
 
 (set-current-module (resolve-module '(daemon-config)))
