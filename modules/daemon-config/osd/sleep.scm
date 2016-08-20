@@ -43,10 +43,18 @@
             #:font "-*-liberation sans-bold-r-normal-*-*-600-*-*-p-*-*"
             #:shadow-offset 2))
 
+;; Not using paramater to make it possible to change sleep command when
+;; sleeping process is on.
 (define sleep-command
   ;; 'turnoff' is my shell script:
   ;; <https://github.com/alezost/shell-config/blob/master/scripts/turnoff>
-  (make-parameter "turnoff --all"))
+  (let ((command "turnoff --all"))
+    (lambda* (#:optional new-command)
+      "Return the current sleep command.
+If NEW-COMMAND is specified, set the current sleep command to it."
+      (when new-command
+        (set! command new-command))
+      command)))
 
 (define (showtime? time)
   "Return #t if TIME is one of those number of minutes when the OSD
