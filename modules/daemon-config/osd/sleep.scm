@@ -95,7 +95,13 @@ Return 0 if the result is less than 0."
          (osd-sleep))
        (if (> time 0)
            (countdown)
-           (system (sleep-command))))
+           (begin
+             ;; Last chance to avoid sleeping.
+             (display-string-in-osd (sleep-osd) "Sleeping...")
+             (sleep 3)
+             (if (> time 0)
+                 (countdown)
+                 (system (sleep-command))))))
      (case-lambda
        "Show sleep OSD.
 If VALUE is specified, set sleep time to this VALUE.
