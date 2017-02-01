@@ -77,6 +77,8 @@ Return #f if KEY is not a number key."
    ;; Global keys.
    ((key? "KEY_INFO")
     (toggle-clock-osd))
+   ((key? "KEY_RED")
+    (system "sudo chvt 12"))
    ((key? "KEY_CAMERA")
     (system "stumpish -e al/toggle-root < /dev/null"))
    ((key? "KEY_SLEEP")
