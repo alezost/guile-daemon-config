@@ -1,6 +1,6 @@
 ;;; sleep.scm --- Set up "sleep" with OSD
 
-;; Copyright © 2016 Alex Kost <alezost@gmail.com>
+;; Copyright © 2016, 2017 Alex Kost <alezost@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 ;;; Code:
 
 (define-module (daemon-config osd sleep)
+  #:use-module (ice-9 threads)
   #:use-module (xosd)
   #:use-module (daemon-config osd)
   #:use-module (daemon-config osd global)

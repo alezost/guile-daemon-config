@@ -1,6 +1,6 @@
 ;;; keys.scm --- Handle remote control keys
 
-;; Copyright © 2016 Alex Kost <alezost@gmail.com>
+;; Copyright © 2016, 2017 Alex Kost <alezost@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (daemon-config lirc keys)
+  #:use-module (ice-9 threads)
   #:use-module (ice-9 regex)
   #:use-module (srfi srfi-26)
   #:use-module (xosd)

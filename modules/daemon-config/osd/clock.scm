@@ -1,6 +1,6 @@
 ;;; clock.scm --- Display clock OSD
 
-;; Copyright © 2016 Alex Kost <alezost@gmail.com>
+;; Copyright © 2016, 2017 Alex Kost <alezost@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (daemon-config osd clock)
+  #:use-module (ice-9 threads)
   #:use-module (xosd)
   #:use-module (daemon-config osd)
   #:export (toggle-clock-osd))
@@ -40,10 +41,12 @@
         (display-clock))
 
       (if (and thread (not (thread-exited? thread)))
-          (cancel-thread thread)
-          (begin
-            (set! thread (call-with-new-thread display-clock))
-            (set-thread-cleanup! thread
-                                 (lambda () (hide-osd osd))))))))
+          ;; FIXME It is better to hide osd inside a thread cleanup
+          ;; handler, which can be created with `dynamic-wind' according to
+          ;; <http://git.savannah.gnu.org/cgit/guile.git/commit/?id=eeeee3297b8d4cb0717ee3b9ae5068b4f0b7f118>.
+          ;; But I don't know how to do it :-(
+          (begin (cancel-thread thread)
+                 (hide-osd osd))
+          (set! thread (call-with-new-thread display-clock))))))
 
 ;;; clock.scm ends here
