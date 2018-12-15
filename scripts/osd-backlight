@@ -1,0 +1,20 @@
+#!/bin/sh
+
+case "$1" in
+    -h | --help)
+        echo 'Usage: osd-backlight [ARGS...]
+Run "xbacklight ARGS..." and display screen backlight value in OSD.
+Without arguments, show previously displayed backlight value.'
+        exit 0 ;;
+    *)
+        if [[ -z "$@" ]]; then
+            gdpipe "(osd-backlight)"
+        else
+            quoted_args=
+            for arg; do
+                quoted_args="$quoted_args \"$arg\""
+            done
+            gdpipe "(osd-backlight $quoted_args)"
+        fi
+        ;;
+esac
