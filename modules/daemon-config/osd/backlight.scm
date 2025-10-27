@@ -45,7 +45,7 @@ these arguments and update the OSD accordingly."
      (let ((backlight (get-backlight))
            (osd       (backlight-osd)))
        (if backlight
-           (let* ((backlight (inexact->exact backlight))
+           (let* ((backlight (inexact->exact (round backlight)))
                   (title (format #f "Backlight: ~d%" backlight)))
              (set-osd-color! osd %backlight-color)
              (display-string-in-osd osd title)
