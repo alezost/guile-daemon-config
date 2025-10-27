@@ -1,3 +1,4 @@
 #!/bin/sh
 
+dunstctl close-all
 gdpipe '(hide-osds)'
