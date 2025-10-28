@@ -1,6 +1,6 @@
 ;;; sound.scm --- Display sound OSD
 
-;; Copyright © 2016 Alex Kost <alezost@gmail.com>
+;; Copyright © 2016–2025 Alex Kost <alezost@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -23,9 +23,12 @@
   #:use-module (daemon-config osd global)
   #:export (osd-sound))
 
+(define %timeout-on 3)
+(define %timeout-off 0)
+
 (define-osd sound-osd
   (make-osd #:lines 2
-            #:timeout 3
+            #:timeout %timeout-on
             #:align 'center
             #:position 'bottom
             #:font "-*-dejavu sans-bold-r-normal-*-*-320-*-*-p-*-*"
@@ -46,8 +49,10 @@ arguments and update the OSD accordingly."
                   (volume  (sound-volume sound))
                   (muted?  (sound-muted? sound))
                   (color   (if muted? %color-off %color-on))
+                  (timeout (if muted? %timeout-off %timeout-on))
                   (title   (format #f "~a: ~d%" control volume)))
              (set-osd-color! osd color)
+             (set-osd-timeout! osd timeout)
              (display-string-in-osd osd title)
              (display-percentage-in-osd osd volume 1))
            (begin
