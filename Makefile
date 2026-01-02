@@ -1,6 +1,6 @@
 # Makefile --- GNU Makefile to build guile modules
 
-# Copyright © 2017 Alex Kost <alezost@gmail.com>
+# Copyright © 2017–2026 Alex Kost <alezost@gmail.com>
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,18 +20,9 @@
 # The only purpose of this Makefile is to build .scm files to check them
 # for potential errors.
 
-MODULES_DIR = modules
+MODULES_DIR = $(CURDIR)/modules
 
-MODULES =					\
-  $(MODULES_DIR)/daemon-config.scm		\
-  $(MODULES_DIR)/daemon-config/osd.scm		\
-  $(MODULES_DIR)/daemon-config/osd/global.scm	\
-  $(MODULES_DIR)/daemon-config/osd/text.scm	\
-  $(MODULES_DIR)/daemon-config/osd/sound.scm	\
-  $(MODULES_DIR)/daemon-config/osd/clock.scm	\
-  $(MODULES_DIR)/daemon-config/osd/sleep.scm	\
-  $(MODULES_DIR)/daemon-config/lirc/client.scm	\
-  $(MODULES_DIR)/daemon-config/lirc/keys.scm
+MODULES = $(shell find -L $(MODULES_DIR) -mindepth 1 -name '*scm')
 
 GO_FILES = $(MODULES:%.scm=%.go)
 
