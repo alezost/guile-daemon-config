@@ -1,6 +1,6 @@
 ;;; clock.scm --- Display clock OSD
 
-;; Copyright © 2016, 2017 Alex Kost <alezost@gmail.com>
+;; Copyright © 2016–2026 Alex Kost <alezost@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -18,15 +18,15 @@
 (define-module (daemon-config osd clock)
   #:use-module (ice-9 threads)
   #:use-module (xosd)
-  #:use-module (daemon-config osd)
+  #:use-module (al osd)
   #:export (toggle-clock-osd))
 
 (define-osd clock-osd
-  (make-osd #:position 'middle
-            #:align 'center
-            #:font "-*-ubuntu-bold-r-normal-*-*-3800-*-*-p-*-*"
-            #:color "#BFBF00"
-            #:shadow-offset 3))
+  #:position 'middle
+  #:align 'center
+  #:font "-*-ubuntu-bold-r-normal-*-*-3800-*-*-p-*-*"
+  #:color "#BFBF00"
+  #:shadow-offset 3)
 
 (define toggle-clock-osd
   (let ((thread #f))

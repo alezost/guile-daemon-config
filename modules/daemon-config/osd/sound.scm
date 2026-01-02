@@ -1,6 +1,6 @@
 ;;; sound.scm --- Display sound OSD
 
-;; Copyright © 2016–2025 Alex Kost <alezost@gmail.com>
+;; Copyright © 2016–2026 Alex Kost <alezost@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
   #:use-module (ice-9 format)
   #:use-module (xosd)
   #:use-module (al sound)
-  #:use-module (daemon-config osd)
+  #:use-module (al osd)
   #:use-module (daemon-config osd global)
   #:export (osd-sound))
 
@@ -27,12 +27,12 @@
 (define %timeout-off 0)
 
 (define-osd sound-osd
-  (make-osd #:lines 2
-            #:timeout %timeout-on
-            #:align 'center
-            #:position 'bottom
-            #:font "-*-dejavu sans-bold-r-normal-*-*-320-*-*-p-*-*"
-            #:shadow-offset 2))
+  #:lines 2
+  #:timeout %timeout-on
+  #:align 'center
+  #:position 'bottom
+  #:font "-*-dejavu sans-bold-r-normal-*-*-320-*-*-p-*-*"
+  #:shadow-offset 2)
 
 (define osd-sound
   (case-lambda

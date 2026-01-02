@@ -19,7 +19,7 @@
   #:use-module (ice-9 match)
   #:use-module (xosd)
   #:use-module (al utils)
-  #:use-module (daemon-config osd)
+  #:use-module (al osd)
   #:export (osd-text))
 
 (define-values (text-osd

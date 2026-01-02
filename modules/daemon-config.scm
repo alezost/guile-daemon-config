@@ -1,6 +1,6 @@
 ;;; daemon-config.scm --- Autoload procedures for my Guile-Daemon config
 
-;; Copyright © 2016, 2018 Alex Kost <alezost@gmail.com>
+;; Copyright © 2016–2026 Alex Kost <alezost@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 
 (define-module (daemon-config)
   #:use-module (al processes)
+  #:autoload (al osd) (hide-osds)
   #:autoload (daemon-config lirc client) (lirc-client-reconnect)
-  #:autoload (daemon-config osd)       (hide-osds)
   #:autoload (daemon-config osd clock) (toggle-clock-osd)
   #:autoload (daemon-config osd text)  (osd-text)
   #:autoload (daemon-config osd sleep) (osd-sleep sleep-command)

@@ -1,6 +1,6 @@
 ;;; backlight.scm --- Display screen backlight OSD
 
-;; Copyright © 2018 Alex Kost <alezost@gmail.com>
+;; Copyright © 2018–2026 Alex Kost <alezost@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -19,19 +19,19 @@
   #:use-module (ice-9 format)
   #:use-module (xosd)
   #:use-module (al backlight)
-  #:use-module (daemon-config osd)
+  #:use-module (al osd)
   #:use-module (daemon-config osd global)
   #:export (osd-backlight))
 
 (define %backlight-color "#2890e8")
 
 (define-osd backlight-osd
-  (make-osd #:lines 2
-            #:timeout 3
-            #:align 'center
-            #:position 'bottom
-            #:font "-*-dejavu sans-bold-r-normal-*-*-320-*-*-p-*-*"
-            #:shadow-offset 2))
+  #:lines 2
+  #:timeout 3
+  #:align 'center
+  #:position 'bottom
+  #:font "-*-dejavu sans-bold-r-normal-*-*-320-*-*-p-*-*"
+  #:shadow-offset 2)
 
 (define osd-backlight
   (case-lambda

@@ -1,6 +1,6 @@
 ;;; sleep.scm --- Set up "sleep" with OSD
 
-;; Copyright © 2016, 2017 Alex Kost <alezost@gmail.com>
+;; Copyright © 2016–2026 Alex Kost <alezost@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -31,18 +31,18 @@
 (define-module (daemon-config osd sleep)
   #:use-module (ice-9 threads)
   #:use-module (xosd)
-  #:use-module (daemon-config osd)
+  #:use-module (al osd)
   #:use-module (daemon-config osd global)
   #:export (osd-sleep
             sleep-osd
             sleep-command))
 
 (define-osd sleep-osd
-  (make-osd #:position 'top
-            #:align 'left
-            #:timeout 5
-            #:font "-*-liberation sans-bold-r-normal-*-*-600-*-*-p-*-*"
-            #:shadow-offset 2))
+  #:position 'top
+  #:align 'left
+  #:timeout 5
+  #:font "-*-liberation sans-bold-r-normal-*-*-600-*-*-p-*-*"
+  #:shadow-offset 2)
 
 ;; Not using paramater to make it possible to change sleep command when
 ;; sleeping process is on.
