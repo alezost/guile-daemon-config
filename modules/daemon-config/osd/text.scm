@@ -1,6 +1,6 @@
 ;;; text.scm --- Display text in OSD
 
-;; Copyright © 2016 Alex Kost <alezost@gmail.com>
+;; Copyright © 2016–2026 Alex Kost <alezost@gmail.com>
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -48,7 +48,14 @@
                        (hide-osd osd)))
                  osds)))))
 
-(define (display-strings-in-osd strings)
+(define (display-pause-in-osd osd line-number pause)
+  (let loop ((seconds pause))
+    (when (> seconds 0)
+      (display-string-in-osd osd (make-string seconds #\.) line-number)
+      (sleep 1)
+      (loop (1- seconds)))))
+
+(define* (display-strings-in-osd strings pause)
   (let* ((lines (length strings))
          (osd   (text-osd lines)))
     (hide-text-osds lines)
@@ -56,19 +63,23 @@
                (line 0))
       (unless (null? strings)
         (display-string-in-osd osd (car strings) line)
-        (loop (cdr strings)
-              (1+ line))))))
+        (let ((rest (cdr strings))
+              (next-line (1+ line)))
+          (unless (null? rest)
+            (display-pause-in-osd osd next-line pause))
+          (loop rest next-line))))))
 
-(define (osd-text . strings)
+(define* (osd-text #:key (pause 0) #:rest strings)
   "Show STRINGS in OSD on separate lines.
+PAUSE is the number of seconds to pause between displaying STRINGS.
 If STRINGS are not specified, show OSD with the previously displayed string.
 If a single string is specified, it may contain newlines."
-  (match strings
+  (match (remove-keywords strings)
     (()
      (show-osd (text-osd 1)))
     ((string)
-     (display-strings-in-osd (string-split string #\newline)))
+     (display-strings-in-osd (string-split string #\newline) pause))
     (strings
-     (display-strings-in-osd strings))))
+     (display-strings-in-osd strings pause))))
 
 ;;; text.scm ends here
