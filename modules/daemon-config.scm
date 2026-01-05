@@ -17,7 +17,7 @@
 
 (define-module (daemon-config)
   #:use-module (al processes)
-  #:autoload (al osd) (hide-osds)
+  #:autoload (al osd) (show-osds hide-osds)
   #:autoload (daemon-config lirc client) (lirc-client-reconnect)
   #:autoload (daemon-config osd clock) (toggle-clock-osd)
   #:autoload (daemon-config osd text)  (osd-text)
