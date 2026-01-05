@@ -17,22 +17,14 @@
 
 (define-module (daemon-config osd sound)
   #:use-module (ice-9 format)
-  #:use-module (xosd)
   #:use-module (al sound)
-  #:use-module (al osd)
+  #:use-module (al utils)
   #:use-module (daemon-config osd global)
+  #:use-module (daemon-config osd)
   #:export (osd-sound))
 
 (define %timeout-on 3)
 (define %timeout-off 0)
-
-(define-osd sound-osd
-  #:lines 2
-  #:timeout %timeout-on
-  #:align 'center
-  #:position 'bottom
-  #:font "-*-dejavu sans-bold-r-normal-*-*-320-*-*-p-*-*"
-  #:shadow-offset 2)
 
 (define osd-sound
   (case-lambda
@@ -40,25 +32,18 @@
 If called with arguments (should be strings), run 'amixer' with these
 arguments and update the OSD accordingly."
     (()
-     (show-osd (sound-osd)))
+     (show-main-osd))
     (amixer-args
-     (let ((sound (parse-amixer-output (apply call-amixer amixer-args)))
-           (osd   (sound-osd)))
-       (if sound
-           (let* ((control (sound-control sound))
-                  (volume  (sound-volume sound))
-                  (muted?  (sound-muted? sound))
-                  (color   (if muted? %color-off %color-on))
-                  (timeout (if muted? %timeout-off %timeout-on))
-                  (title   (format #f "~a: ~d%" control volume)))
-             (set-osd-color! osd color)
-             (set-osd-timeout! osd timeout)
-             (display-string-in-osd osd title)
-             (display-percentage-in-osd osd volume 1))
-           (begin
-             (set-osd-color! osd %color-error)
-             (display-string-in-osd osd "")
-             (display-string-in-osd
-              osd "Oops, can't parse amixer output :-)" 1)))))))
+     (if-let ((sound (parse-amixer-output
+                      (apply call-amixer amixer-args))))
+       (let ((control (sound-control sound))
+             (volume  (sound-volume  sound))
+             (muted?  (sound-muted?  sound)))
+         (show-main-osd #:line0   (format #f "~a: ~d%" control volume)
+                        #:line1   volume
+                        #:color   (if muted? %color-off   %color-on)
+                        #:timeout (if muted? %timeout-off %timeout-on)))
+       (show-main-osd #:line1 "Oops, can't parse amixer output :-)"
+                      #:color %color-error)))))
 
 ;;; sound.scm ends here

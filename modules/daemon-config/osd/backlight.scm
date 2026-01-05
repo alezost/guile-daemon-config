@@ -17,21 +17,13 @@
 
 (define-module (daemon-config osd backlight)
   #:use-module (ice-9 format)
-  #:use-module (xosd)
   #:use-module (al backlight)
-  #:use-module (al osd)
+  #:use-module (al utils)
   #:use-module (daemon-config osd global)
+  #:use-module (daemon-config osd)
   #:export (osd-backlight))
 
 (define %backlight-color "#2890e8")
-
-(define-osd backlight-osd
-  #:lines 2
-  #:timeout 3
-  #:align 'center
-  #:position 'bottom
-  #:font "-*-dejavu sans-bold-r-normal-*-*-320-*-*-p-*-*"
-  #:shadow-offset 2)
 
 (define osd-backlight
   (case-lambda
@@ -39,21 +31,15 @@
 If called with arguments (should be strings), run 'xbacklight' with
 these arguments and update the OSD accordingly."
     (()
-     (show-osd (backlight-osd)))
+     (show-main-osd))
     (args
      (apply call-xbacklight args)
-     (let ((backlight (get-backlight))
-           (osd       (backlight-osd)))
-       (if backlight
-           (let* ((backlight (inexact->exact (round backlight)))
-                  (title (format #f "Backlight: ~d%" backlight)))
-             (set-osd-color! osd %backlight-color)
-             (display-string-in-osd osd title)
-             (display-percentage-in-osd osd backlight 1))
-           (begin
-             (set-osd-color! osd %color-error)
-             (display-string-in-osd osd "")
-             (display-string-in-osd
-              osd "Oops, can't parse xbacklight output :-)" 1)))))))
+     (if-let ((backlight (get-backlight))
+              (backlight (inexact->exact (round backlight))))
+       (show-main-osd #:line0 (format #f "Backlight: ~d%" backlight)
+                      #:line1 backlight
+                      #:color %backlight-color)
+       (show-main-osd #:line1 "Oops, can't parse xbacklight output :-)"
+                      #:color %color-error)))))
 
 ;;; backlight.scm ends here
