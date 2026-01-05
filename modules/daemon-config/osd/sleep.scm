@@ -32,7 +32,7 @@
   #:use-module (ice-9 threads)
   #:use-module (xosd)
   #:use-module (al osd)
-  #:use-module (daemon-config osd global)
+  #:use-module (daemon-config osd)
   #:export (osd-sleep
             sleep-osd
             sleep-command))

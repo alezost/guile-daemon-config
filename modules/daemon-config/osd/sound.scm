@@ -19,7 +19,6 @@
   #:use-module (ice-9 format)
   #:use-module (al sound)
   #:use-module (al utils)
-  #:use-module (daemon-config osd global)
   #:use-module (daemon-config osd)
   #:export (osd-sound))
 

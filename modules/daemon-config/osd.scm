@@ -20,7 +20,14 @@
   #:use-module (xosd)
   #:use-module (al utils)
   #:use-module (al osd)
-  #:export (show-main-osd))
+  #:export (%color-on
+            %color-off
+            %color-error
+            show-main-osd))
+
+(define %color-on "#23B13E")
+(define %color-off "#E74F35")
+(define %color-error "orange")
 
 (define-osd main-osd
   #:lines 2
