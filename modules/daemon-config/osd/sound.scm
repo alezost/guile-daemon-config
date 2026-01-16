@@ -17,8 +17,8 @@
 
 (define-module (daemon-config osd sound)
   #:use-module (ice-9 format)
+  #:use-module (al let-macros)
   #:use-module (al sound)
-  #:use-module (al utils)
   #:use-module (daemon-config osd)
   #:export (osd-sound))
 
@@ -33,15 +33,15 @@ arguments and update the OSD accordingly."
     (()
      (show-main-osd))
     (amixer-args
-     (if-let ((sound (parse-amixer-output
-                      (apply call-amixer amixer-args))))
-       (let ((control (sound-control sound))
-             (volume  (sound-volume  sound))
-             (muted?  (sound-muted?  sound)))
-         (show-main-osd #:line0   (format #f "~a: ~d%" control volume)
-                        #:line1   volume
-                        #:color   (if muted? %color-off   %color-on)
-                        #:timeout (if muted? %timeout-off %timeout-on)))
+     (if-let1 ((sound (parse-amixer-output
+                       (apply call-amixer amixer-args)))
+               (control (sound-control sound))
+               (volume  (sound-volume  sound))
+               (muted?  (sound-muted?  sound)))
+       (show-main-osd #:line0   (format #f "~a: ~d%" control volume)
+                      #:line1   volume
+                      #:color   (if muted? %color-off   %color-on)
+                      #:timeout (if muted? %timeout-off %timeout-on))
        (show-main-osd #:line1 "Oops, can't parse amixer output :-)"
                       #:color %color-error)))))
 

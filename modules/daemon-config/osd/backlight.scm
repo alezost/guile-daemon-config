@@ -17,8 +17,8 @@
 
 (define-module (daemon-config osd backlight)
   #:use-module (ice-9 format)
+  #:use-module (al let-macros)
   #:use-module (al backlight)
-  #:use-module (al utils)
   #:use-module (daemon-config osd)
   #:export (osd-backlight))
 
@@ -33,8 +33,8 @@ these arguments and update the OSD accordingly."
      (show-main-osd))
     (args
      (apply call-xbacklight args)
-     (if-let ((backlight (get-backlight))
-              (backlight (inexact->exact (round backlight))))
+     (if-let1 ((backlight (get-backlight))
+               (backlight (inexact->exact (round backlight))))
        (show-main-osd #:line0 (format #f "Backlight: ~d%" backlight)
                       #:line1 backlight
                       #:color %backlight-color)
