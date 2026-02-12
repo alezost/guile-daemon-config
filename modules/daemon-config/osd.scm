@@ -23,7 +23,8 @@
   #:export (%color-on
             %color-off
             %color-error
-            show-main-osd))
+            show-main-osd
+            show-error-in-osd))
 
 (define %color-on "#23B13E")
 (define %color-off "#E74F35")
@@ -70,5 +71,13 @@ The rest keyword arguments, ARGS, are passed to `set-osd!' procedure."
            (apply set-osd! osd osd-args))
          (show line0 0)
          (show line1 1))))))
+
+(define (show-error-in-osd string)
+  "Show STRING in osd using `%color-error' color.
+Return false value in Lisp format."
+  (show-main-osd #:line1 string
+                 #:color %color-error)
+  ;; Use Lisp format because this output is used by StumpWM.
+  (scheme->lisp #f))
 
 ;;; osd.scm ends here
