@@ -39,8 +39,9 @@
   #:shadow-offset 2)
 
 (define show-main-osd
-  (let ((prev-osd-args #f))
-    (case-lambda*
+  (let ((prev-osd-args #f)
+        (osd (main-osd)))
+    (lambda* (#:key (line0 "") (line1 "") #:allow-other-keys #:rest args)
       "Show main OSD.
 If called without arguments, just show the OSD.
 
@@ -48,11 +49,9 @@ LINE0 / LINE1 can be a string (for `display-string-in-osd') or a
 number (for `display-percentage-in-osd').
 
 The rest keyword arguments, ARGS, are passed to `set-osd!' procedure."
-      (()
-       (show-osd (main-osd)))
-      ((#:key (line0 "") (line1 "") #:allow-other-keys #:rest args)
-       (let* ((osd (main-osd))
-              (show (lambda (str-or-num line)
+      (if (null? args)
+        (show-osd osd)
+        (let ((show (lambda (str-or-num line)
                       (match str-or-num
                         ((? string? str)
                          (display-string-in-osd osd str line))
@@ -65,12 +64,12 @@ The rest keyword arguments, ARGS, are passed to `set-osd!' procedure."
                                   str-or-num)
                           line)))))
               (osd-args (remove-keywords args #:line0 #:line1)))
-         (unless (and prev-osd-args
-                      (equal? prev-osd-args osd-args))
-           (set! prev-osd-args osd-args)
-           (apply set-osd! osd osd-args))
-         (show line0 0)
-         (show line1 1))))))
+          (unless (and prev-osd-args
+                       (equal? prev-osd-args osd-args))
+            (set! prev-osd-args osd-args)
+            (apply set-osd! osd osd-args))
+          (show line0 0)
+          (show line1 1))))))
 
 (define (show-error-in-osd string)
   "Show STRING in osd using `%color-error' color.
