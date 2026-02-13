@@ -1,10 +1,38 @@
 #!/bin/sh
 
+usage () {
+    echo 'Usage: osd-backlight [ARGS...]
+
+Print the current screen backlight brightness (an integer from 0 to 100)
+to standard output.
+
+If ARGS are specified, display backlight value in OSD.
+
+Available ARGS:
+
+  get           Show the current backlight value in OSD.
+
+  set VALUE     Set backlight brightness to VALUE and show it in OSD.
+
+                VALUE should have "sN" format, where "N" is an integer
+                from 0 to 100 and "s" is an optional sign i.e., "s" is
+                either:
+
+                "+": to increase backlight by N,
+                "-": to decrease backlight by N,
+                empty string: to set backlight to N.
+
+Examples:
+
+  osd-backlight get
+  osd-backlight set 30
+  osd-backlight set +3
+  osd-backlight set -1'
+}
+
 case "$1" in
     -h | --help)
-        echo 'Usage: osd-backlight [ARGS...]
-Run "xbacklight ARGS..." and display screen backlight value in OSD.
-Without arguments, show previously displayed backlight value.'
+        usage
         exit 0 ;;
     *)
         if [[ -z "$@" ]]; then

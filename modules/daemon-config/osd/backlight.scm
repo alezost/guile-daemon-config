@@ -17,28 +17,50 @@
 
 (define-module (daemon-config osd backlight)
   #:use-module (ice-9 format)
-  #:use-module (al let-macros)
+  #:use-module (ice-9 match)
+  #:use-module (al utils)
   #:use-module (al backlight)
   #:use-module (daemon-config osd)
   #:export (osd-backlight))
 
 (define %backlight-color "#2890e8")
 
-(define osd-backlight
-  (case-lambda
-    "Show screen backlight OSD.
-If called with arguments (should be strings), run 'xbacklight' with
-these arguments and update the OSD accordingly."
-    (()
-     (show-main-osd))
-    (args
-     (apply call-xbacklight args)
-     (if-let1 ((backlight (get-backlight))
-               (backlight (inexact->exact (round backlight))))
-       (show-main-osd #:line0 (format #f "Backlight: ~d%" backlight)
-                      #:line1 backlight
-                      #:color %backlight-color)
-       (show-main-osd #:line1 "Oops, can't parse xbacklight output :-)"
-                      #:color %color-error)))))
+(define* (output-backlight backlight #:optional (show-osd? #t))
+  "Return BACKLIGHT value in Lisp format.
+SHOW-OSD? defines if OSD with the backlight value should be displayed or not."
+  (when show-osd?
+    (show-main-osd
+     #:line0 (format #f "Backlight: ~d%" backlight)
+     #:line1 backlight
+     #:color %backlight-color))
+  (scheme->lisp backlight))
+
+(define (osd-backlight . args)
+  "Update screen backlight according to ARGS and show backlight OSD.
+
+ARGS should be command line arguments (i.e., strings).  They have one of
+the following forms:
+
+  get,
+  set VALUE: set to the specified value, see `set-backlight' for details.
+
+Example: (osd-backlight \"set\" \"+3\")
+
+Return the current backlight percentage (an integer from 0 to 100).
+Return false value in Lisp format if backlight is not available.
+
+If ARGS are not specified, do not show OSD, just return the backlight
+percentage."
+  (if (backlight-available?)
+    (match args
+      (()
+       (output-backlight (get-backlight) #f))
+      (("get")
+       (output-backlight (get-backlight)))
+      (("set" value)
+       (output-backlight (set-backlight value)))
+      (_
+       (show-error-in-osd (format #f "Unknown arguments: ~a" args))))
+    (show-error-in-osd "Backlight is not available")))
 
 ;;; backlight.scm ends here
