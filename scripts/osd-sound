@@ -1,10 +1,52 @@
 #!/bin/sh
 
+usage () {
+    echo 'Usage: osd-sound [ARGS...]
+
+Print the current sound value to standard output.
+This value has (VOLUME ON) form, where
+
+  VOLUME is an integer from 0 to 100,
+
+  ON is a boolean value in Lisp format (nil or t) showing if the sound
+  is on or off (muted).
+
+Print () in case of any error.
+
+If ARGS are specified, display sound value in OSD.
+
+Available ARGS:
+
+  get           Show the current sound value in OSD.
+
+  set VALUE     Set sound brightness to VALUE and show it in OSD.
+
+                VALUE should have "sN" format, where "N" is an integer
+                from 0 to 100 and "s" is an optional sign i.e., "s" is
+                either:
+
+                "+": to increase sound by N,
+                "-": to decrease sound by N,
+                empty string: to set sound to N.
+
+  on            Unmute (turn sound on).
+
+  off           Mute (turn sound off).
+
+  toggle        Toggle mute state.
+
+Examples:
+
+  osd-sound get
+  osd-sound toggle
+  osd-sound set 80
+  osd-sound set +10
+  osd-sound set -3'
+}
+
 case "$1" in
     -h | --help)
-        echo 'Usage: osd-sound [AMIXER-ARGS...]
-Run "amixer AMIXER-ARGS..." and display sound value in OSD.
-Without arguments, show previously displayed sound value.'
+        usage
         exit 0 ;;
     *)
         if [[ -z "$@" ]]; then

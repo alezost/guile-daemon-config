@@ -17,7 +17,8 @@
 
 (define-module (daemon-config osd sound)
   #:use-module (ice-9 format)
-  #:use-module (al let-macros)
+  #:use-module (ice-9 match)
+  #:use-module (al utils)
   #:use-module (al sound)
   #:use-module (daemon-config osd)
   #:export (osd-sound))
@@ -25,24 +26,57 @@
 (define %timeout-on 3)
 (define %timeout-off 0)
 
-(define osd-sound
-  (case-lambda
-    "Show sound OSD.
-If called with arguments (should be strings), run 'amixer' with these
-arguments and update the OSD accordingly."
+(define* (output-sound sound #:optional (show-osd? #t))
+  (if sound
+    (let ((volume (sound-volume sound))
+          (muted? (sound-muted? sound)))
+      (when show-osd?
+        (show-main-osd
+         #:line0   (format #f "Sound: ~d%" volume)
+         #:line1   volume
+         #:color   (if muted? %color-off   %color-on)
+         #:timeout (if muted? %timeout-off %timeout-on)))
+      (list volume (scheme->lisp (not muted?))))
+    (show-error-in-osd "Cannot obtain sound value")))
+
+(define (osd-sound . args)
+  "Update sound according to ARGS and show sound OSD.
+
+ARGS should be command line arguments (i.e., strings).  They have one of
+the following forms:
+
+  get,
+  set VALUE: set to the specified VALUE, see `set-sound' for details,
+  on:        unmute (turn sound on),
+  off:       mute (turn sound off),
+  toggle:    toggle mute state.
+
+Example: (osd-sound \"set\" \"+3\")
+
+Return (VOLUME ON) list, where
+
+  VOLUME is an integer from 0 to 100,
+
+  ON is a boolean value in Lisp format showing if sound is on or
+  off (muted).
+
+Return false value in Lisp format in case of any error.
+
+If ARGS are not specified, do not show OSD, just return value."
+  (match args
     (()
-     (show-main-osd))
-    (amixer-args
-     (if-let1 ((sound (parse-amixer-output
-                       (apply call-amixer amixer-args)))
-               (control (sound-control sound))
-               (volume  (sound-volume  sound))
-               (muted?  (sound-muted?  sound)))
-       (show-main-osd #:line0   (format #f "~a: ~d%" control volume)
-                      #:line1   volume
-                      #:color   (if muted? %color-off   %color-on)
-                      #:timeout (if muted? %timeout-off %timeout-on))
-       (show-main-osd #:line1 "Oops, can't parse amixer output :-)"
-                      #:color %color-error)))))
+     (output-sound (get-sound) #f))
+    (("get")
+     (output-sound (get-sound)))
+    (("set" value)
+     (output-sound (set-sound #:volume value)))
+    (("on")
+     (output-sound (set-sound #:mute #f)))
+    (("off")
+     (output-sound (set-sound #:mute #t)))
+    (("toggle")
+     (output-sound (set-sound #:mute 'toggle)))
+    (_
+     (show-error-in-osd (format #f "Unknown arguments: ~a" args)))))
 
 ;;; sound.scm ends here
