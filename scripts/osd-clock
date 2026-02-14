@@ -1,0 +1,11 @@
+#!/bin/sh
+
+case "$1" in
+    -h | --help)
+        echo 'Usage: osd-clock
+Toggle clock OSD.'
+        exit 0 ;;
+    *)
+        gdpipe '(toggle-clock-osd)'
+        ;;
+esac
