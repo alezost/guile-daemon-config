@@ -1,16 +1,12 @@
 * About
 
-This is my configuration for [[https://github.com/alezost/guile-daemon][Guile-Daemon]].  I use it for 2 purposes:
-
-- As the OSD daemon, i.e. to display something (clock, sound volume,
-  etc.) on screen using [[https://github.com/alezost/guile-xosd][Guile-XOSD]].
-
-- As a client for =lircd= (instead of [[http://www.lirc.org/html/irexec.html][irexec]]), i.e. to handle key
-  signals from my remote control.
+This is my configuration for [[https://github.com/alezost/guile-daemon][Guile-Daemon]].  Mainly, I use it as an OSD
+daemon, i.e. to display something (sound volume, display brightness,
+clock, etc.) on screen using [[https://github.com/alezost/guile-xosd][Guile-XOSD]].
 
 [[file:sound-volume-demo.gif]]
 
-Note: along with =(xosd)= module from Guile-XOSD, [[https://github.com/alezost/guile-config][my guile modules]] are
+*Note:* along with =(xosd)= module from Guile-XOSD, [[https://github.com/alezost/guile-config][my guile modules]] are
 used in this config (they have =(al ...)= form).
 
 * Files
@@ -34,6 +30,15 @@ used in this config (they have =(al ...)= form).
 - [[file:scripts]] directory contains a couple of shell scripts that send
   expressions to the Guile Daemon using =gdpipe= (it is a part of
   Guile-Daemon).  This directory is placed in my $PATH so I can use such
-  commands as =osd-text hello= or =osd-sound sset Master 3%+=.  For
-  example, I bind several keys to such =osd-sound= commands in my
-  [[https://github.com/alezost/stumpwm-config][stumpwm config]].  The result may be seen in the gif demo above.
+  commands as:
+
+  #+begin_src sh
+  osd-sound set +10
+  osd-backlight set -3
+  osd-text hello
+  osd-clock
+  #+end_src
+
+  For example, I bind several keys to =osd-sound= and =osd-backlight=
+  commands in my [[https://github.com/alezost/stumpwm-config][stumpwm config]].  The result may be seen in the gif demo
+  above.
